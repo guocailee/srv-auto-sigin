@@ -66,6 +66,10 @@ router.post('/', function (req, res) {
       mobile_token: getToken(userInfo.phone)
     }
   }, function (err, httpResponse, body) {
+    if (err) {
+      console.log(err)
+    }
+    console.log(userInfo)
     console.log(httpResponse.body)
     res.json(httpResponse.body)
   })
