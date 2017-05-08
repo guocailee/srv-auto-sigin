@@ -17,7 +17,7 @@
     <mt-radio
       title="时间段"
       v-model="data.value"
-      :options="[{value: '08:30', label:'早 8:30'}, {value:'09:00',label:'早 9:00'}, {value: '18:00',label:'晚 18:00'},{value:'18:30',label: '晚 18:30'}]">
+      :options="[{value: '08:30:00', label:'早 8:30'}, {value:'08:59:59',label:'早 9:00'}, {value: '18:00:00',label:'晚 18:00'},{value:'18:30:00',label: '晚 18:30'}]">
     </mt-radio>
     <mt-button @click.native="handleClick" type="primary" size="large">签卡</mt-button>
    </div>
@@ -35,11 +35,20 @@
       },
       methods: {
         handleClick: function() {
+          let self = this
           if (this.data.phone ==='' || this.data.value === '') {
             this.$toast('请输入手机号或时间段');
             return 
           }
           localStorage.setItem('phone', this.data.phone)
+          this.$http.post('/api/signin', this.data).then(data => {
+            try {
+              var result = JSON.parse(data.body)
+              this.$toast(result.message)
+            } catch(e) {
+              this.$toast(data.body)
+            }
+          })
         }
       }
     })
