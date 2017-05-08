@@ -1,14 +1,47 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>LeanEngine</title>
+    <title>服服签卡程序</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <script type="text/javascript" src="unpkg.com/vue@2.3.2"></script>
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+    <script type="text/javascript" src="//unpkg.com/vue@2.3.2"></script>
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.min.js"></script>
   </head>
   <body>
-    <h1>LeanEngine</h1>
-    <p>这是 LeanEngine 的示例应用</p>
-    <p>当前时间：<%= currentTime %></p>
-    <p><a href="/todos">一个简单的「TODO 列表」示例</a></p>
+   <div id="app">
+    <mt-header title="签卡程序">
+    </mt-header>
+    <mt-field label="手机号:" placeholder="请输入你的手机号" type="tel" v-model="data.phone"></mt-field>
+    <mt-radio
+      title="时间段"
+      v-model="data.value"
+      :options="[{value: '08:30', label:'早 8:30'}, {value:'09:00',label:'早 9:00'}, {value: '18:00',label:'晚 18:00'},{value:'18:30',label: '晚 18:30'}]">
+    </mt-radio>
+    <mt-button @click.native="handleClick" type="primary" size="large">签卡</mt-button>
+   </div>
   </body>
+    <script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return {
+          data: {
+            value: '',
+            phone: localStorage.getItem('phone')
+          }
+        }
+      },
+      methods: {
+        handleClick: function() {
+          if (this.data.phone ==='' || this.data.value === '') {
+            this.$toast('请输入手机号或时间段');
+            return 
+          }
+          localStorage.setItem('phone', this.data.phone)
+        }
+      }
+    })
+  </script>
 </html>
