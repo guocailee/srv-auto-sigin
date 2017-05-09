@@ -1,6 +1,8 @@
 var request = require('request')
 var md5 = require('js-md5')
 var router = require('express').Router();
+var AV = require('leanengine');
+var SignLog = AV.Object.extend('SignLog');
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -54,6 +56,8 @@ function getToken(username) {
 
 router.post('/', function (req, res) {
   var userInfo = req.body
+  var sysLog = new SignLog();
+
   request.post({
     url: getUrl(userInfo.phone),
     form: {
@@ -66,11 +70,14 @@ router.post('/', function (req, res) {
       mobile_token: getToken(userInfo.phone)
     }
   }, function (err, httpResponse, body) {
+    sysLog.set('phone', userInfo.phone)
     if (err) {
+      sysLog.set('message', err)
       console.log(err)
+    } else {
+      sysLog.set('message', httpResponse.body)
     }
-    console.log(userInfo)
-    console.log(httpResponse.body)
+    sysLog.save()
     res.json(httpResponse.body)
   })
 })
