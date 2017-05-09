@@ -48,7 +48,7 @@ function getCardRecTime(value) {
 }
 
 function getToken(username) {
-  var randomSeed = md5(username)
+  var randomSeed = md5(username || '')
   return randomSeed.substring(6, 22)
 }
 
