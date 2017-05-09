@@ -41,7 +41,7 @@
             return 
           }
           localStorage.setItem('phone', this.data.phone)
-          this.$http.post('/api/signin', this.data).then(data => {
+          this.$http.post('/api/signin', this.data).then(function(data) {
             try {
               var result = JSON.parse(data.body)
               this.$toast(result.message)
