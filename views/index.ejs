@@ -19,38 +19,41 @@
       v-model="data.value"
       :options="[{value: '08:30:00', label:'早 8:30'}, {value:'08:59:59',label:'早 9:00'}, {value: '18:00:00',label:'晚 18:00'},{value:'18:30:00',label: '晚 18:30'}]">
     </mt-radio>
-    <mt-button @click.native="handleClick" type="primary" size="large">签卡</mt-button>
+    <mt-button @click.native="handleClick" type="primary" size="large" disabled="data.isDisable">签卡</mt-button>
    </div>
   </body>
   <script type="text/javascript">
     new Vue({
       el: '#app',
       data: function() {
-	var phone = ''
-	if (localStorage) {
-	  phone = localStorage.getItem('phone')
-	}
+        var phone = ''
+        if (localStorage) {
+          phone = localStorage.getItem('phone')
+        }
         return {
           data: {
             value: '',
-            phone: phone
+            phone: phone,
+            isDisable: false
           }
         }
       },
       methods: {
         handleClick: function() {
           let self = this
-          if (this.data.phone ==='' || this.data.value === '') {
-            this.$toast('请输入手机号或时间段');
-            return 
+          if (self.data.phone === '' || self.data.value === '') {
+            self.$toast('请输入手机号或时间段');
+            return
           }
-	  if (localStorage) localStorage.setItem('phone', this.data.phone)
-          this.$http.post('/api/signin', this.data).then(function(data) {
+          if (localStorage) localStorage.setItem('phone', self.data.phone)
+          self.data.isDisable = true
+          self.$http.post('/api/signin', self.data).then(function(data) {
             try {
               var result = JSON.parse(data.body)
-              this.$toast(result.message)
-            } catch(e) {
-              this.$toast(data.body)
+              self.$toast(result.message)
+              self.data.isDisable = false
+            } catch (e) {
+              self.$toast(data.body)
             }
           })
         }
