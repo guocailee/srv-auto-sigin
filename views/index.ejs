@@ -19,7 +19,7 @@
       v-model="data.value"
       :options="[{value: '08:30:00', label:'早 8:30'}, {value:'08:59:59',label:'早 9:00'}, {value: '18:00:00',label:'晚 18:00'},{value:'18:30:00',label: '晚 18:30'}]">
     </mt-radio>
-    <mt-button @click.native="handleClick" type="primary" size="large" disabled="data.isDisable">签卡</mt-button>
+    <mt-button @click.native="handleClick" type="primary" size="large" :disabled="data.isDisable">签卡</mt-button>
    </div>
   </body>
   <script type="text/javascript">
