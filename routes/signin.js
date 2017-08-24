@@ -77,8 +77,7 @@ router.post('/', function (req, res) {
     } else {
       sysLog.set('message', httpResponse.body)
     }
-    sysLog.save()
-    console.log(JSON.parse(httpResponse.body))
+    sysLog.save();
     res.json(httpResponse.body)
   })
 })
