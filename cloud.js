@@ -74,10 +74,11 @@ function sign(userInfo) {
         sysLog.set('message', err)
         reject();
         console.log(err)
+        return;
       } else {
         sysLog.set('message', httpResponse.body)
       }
-      if (httpResponse.body.flag != 0 ) {
+      if (httpResponse.body.flag != 0) {
         reject();
       } else {
         resolve();
@@ -91,14 +92,13 @@ function sign(userInfo) {
  * 一个简单的云代码方法
  */
 AV.Cloud.define('hello', function (request) {
-  return 'Hello world!';
   var now = new Date().getHours() + ":" + new Date().getMinutes();
   var userInfo = {
     phone: "18059805239",
     value: now
   };
-  sign(userInfo).then(function() {
-  }).catch(function(e) {
+  sign(userInfo).then(function () {}).catch(function (e) {
     sign(userInfo)
   })
+  return 'Hello world!';
 });
