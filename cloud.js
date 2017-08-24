@@ -56,37 +56,35 @@ function getToken(username) {
 
 function sign(userInfo) {
   var sysLog = new SignLog();
-  return new Promise(function (resolve, reject) {
-    request.post({
-      url: getUrl(userInfo.phone),
-      form: {
-        latitude: getLatitude(),
-        longitude: getLongitude(),
-        address: getAddress(),
-        wifi_value: '',
-        wifi_mac: '',
-        card_rec_time: getCardRecTime(userInfo.value),
-        mobile_token: getToken(userInfo.phone)
-      }
-    }, function (err, httpResponse, body) {
-      sysLog.set('phone', userInfo.phone)
-      if (err) {
-        sysLog.set('message', err)
-        sign(userInfo);
-        reject();
-        console.log(err)
-        return;
-      } else {
-        sysLog.set('message', httpResponse.body)
-      }
-      if (JSON.parse(httpResponse.body).flag != 0) {
-        sign(userInfo);
-        reject();
-      } else {
-        resolve();
-      }
-      sysLog.save()
-    })
+  request.post({
+    url: getUrl(userInfo.phone),
+    form: {
+      latitude: getLatitude(),
+      longitude: getLongitude(),
+      address: getAddress(),
+      wifi_value: '',
+      wifi_mac: '',
+      card_rec_time: getCardRecTime(userInfo.value),
+      mobile_token: getToken(userInfo.phone)
+    }
+  }, function (err, httpResponse, body) {
+    sysLog.set('phone', userInfo.phone)
+    if (err) {
+      sysLog.set('message', err)
+      sign(userInfo);
+      reject();
+      console.log(err)
+      return;
+    } else {
+      sysLog.set('message', httpResponse.body)
+    }
+    if (JSON.parse(httpResponse.body).flag != 0) {
+      sign(userInfo);
+      reject();
+    } else {
+      resolve();
+    }
+    sysLog.save()
   })
 }
 
@@ -99,7 +97,7 @@ AV.Cloud.define('hello', function (request) {
     phone: "18059805239",
     value: now
   };
- 
+
   sign(userInfo);
   return 'Hello world!';
 });
