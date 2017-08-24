@@ -72,13 +72,15 @@ function sign(userInfo) {
       sysLog.set('phone', userInfo.phone)
       if (err) {
         sysLog.set('message', err)
+        sign(userInfo);
         reject();
         console.log(err)
         return;
       } else {
         sysLog.set('message', httpResponse.body)
       }
-      if (httpResponse.body.flag != 0) {
+      if (JSON.parse(httpResponse.body).flag != 0) {
+        sign(userInfo);
         reject();
       } else {
         resolve();
@@ -97,8 +99,7 @@ AV.Cloud.define('hello', function (request) {
     phone: "18059805239",
     value: now
   };
-  sign(userInfo).then(function () {}).catch(function (e) {
-    sign(userInfo)
-  })
+ 
+  sign(userInfo);
   return 'Hello world!';
 });
