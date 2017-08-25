@@ -72,7 +72,6 @@ function sign(userInfo) {
     if (err) {
       sysLog.set('message', err)
       sign(userInfo);
-      reject();
       console.log(err)
       return;
     } else {
@@ -80,10 +79,7 @@ function sign(userInfo) {
     }
     if (JSON.parse(httpResponse.body).flag != 0) {
       sign(userInfo);
-      reject();
-    } else {
-      resolve();
-    }
+    } 
     sysLog.save()
   })
 }
