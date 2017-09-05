@@ -37,7 +37,8 @@ function getCardRecTime(value) {
   if (getRandomSeconds < 10) {
     getRandomSeconds = '0' + getRandomSeconds;
   }
-  if (formats[0] === '08') {
+  if (formats[0] === '8') {
+    formats[0] = '0' + formats[0];
     formats[1] = parseInt(formats[1]) - getRandomMinutes;
   } else {
     formats[1] = parseInt(formats[1]) + getRandomMinutes;
