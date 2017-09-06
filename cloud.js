@@ -32,7 +32,7 @@ function getAddress() {
 
 function getCardRecTime(value) {
   var formats = value.split(':');
-  var getRandomMinutes = getRandomInt(1, 15);
+  var getRandomMinutes = getRandomInt(2, 15);
   var getRandomSeconds = getRandomInt(1, 60);
   if (getRandomSeconds < 10) {
     getRandomSeconds = '0' + getRandomSeconds;
