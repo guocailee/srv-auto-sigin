@@ -57,7 +57,10 @@ function getToken(username) {
   return randomSeed.substring(6, 22)
 }
 
-function sign(userInfo) {
+function sign(userInfo, count) {
+  if(count <= 0) {
+    return;
+  }
   var sysLog = new SignLog();
   request.post({
     url: getUrl(userInfo.phone),
@@ -74,14 +77,14 @@ function sign(userInfo) {
     sysLog.set('phone', userInfo.phone)
     if (err) {
       sysLog.set('message', err)
-      sign(userInfo);
+      sign(userInfo, --count);
       console.log(err)
       return;
     } else {
       sysLog.set('message', httpResponse.body)
     }
     if (JSON.parse(httpResponse.body).flag != 0) {
-      sign(userInfo);
+      sign(userInfo, --count);
     } 
     sysLog.save()
   })
@@ -97,6 +100,6 @@ AV.Cloud.define('hello', function (request) {
     value: now
   };
 
-  sign(userInfo);
+  sign(userInfo, 5);
   return 'Hello world!';
 });
