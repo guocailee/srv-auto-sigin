@@ -100,6 +100,6 @@ AV.Cloud.define('hello', function (request) {
     value: now
   };
 
-  sign(userInfo, 5);
+  sign(userInfo, 10);
   return 'Hello world!';
 });
