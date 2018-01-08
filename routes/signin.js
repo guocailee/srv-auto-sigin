@@ -65,7 +65,7 @@ router.post('/', function (req, res) {
       longitude: getLongitude(),
       address: getAddress(),
       wifi_value: '',
-      time_zone: '+8:00',
+      time_zone: '+2:00',
       wifi_mac: '',
       card_rec_time: getCardRecTime(userInfo.value),
       mobile_token: getToken(userInfo.phone)
