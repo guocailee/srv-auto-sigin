@@ -1,7 +1,14 @@
 html,body {
   padding: 0;
   margin: 0;
+  height: 100%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+#app {
+  height: 100%;
+}
+.mint-button {
+  margin-top: 40px;
 }
 a {
   color: #00b7ff;
