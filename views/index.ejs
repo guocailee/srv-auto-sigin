@@ -14,11 +14,6 @@
     <mt-header title="签卡程序">
     </mt-header>
     <mt-field label="手机号:" placeholder="请输入你的手机号" type="tel" v-model="data.phone"></mt-field>
-    <mt-radio
-      title="时间段"
-      v-model="data.value"
-      :options="[{value: '08:30:00', label:'早 8:30'}, {value:'08:59:59',label:'早 9:00'}, {value: '18:00:00',label:'晚 18:00'},{value:'18:30:00',label: '晚 18:30'}]">
-    </mt-radio>
     <mt-button @click.native="handleClick" type="primary" size="large" :disabled="data.isDisable">签卡</mt-button>
    </div>
   </body>
@@ -41,8 +36,8 @@
       methods: {
         handleClick: function() {
           let self = this
-          if (self.data.phone === '' || self.data.value === '') {
-            self.$toast('请输入手机号或时间段');
+          if (self.data.phone === '') {
+            self.$toast('请输入手机号');
             return
           }
           if (localStorage) localStorage.setItem('phone', self.data.phone)

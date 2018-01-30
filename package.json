@@ -16,6 +16,7 @@
     "express": "4.12.3",
     "js-md5": "^0.4.2",
     "leanengine": "^2.0.0",
+    "moment": "^2.20.1",
     "request": "^2.81.0"
   },
   "devDependencies": {

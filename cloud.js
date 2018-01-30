@@ -3,6 +3,8 @@ var md5 = require('js-md5')
 var router = require('express').Router();
 var AV = require('leanengine');
 var SignLog = AV.Object.extend('SignLog');
+var moment = require('moment');
+
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -31,25 +33,7 @@ function getAddress() {
 }
 
 function getCardRecTime(value) {
-  var formats = value.split(':');
-  var getRandomMinutes = getRandomInt(2, 15);
-  var getRandomSeconds = getRandomInt(1, 60);
-  if (getRandomSeconds < 10) {
-    getRandomSeconds = '0' + getRandomSeconds;
-  }
-  if (formats[0] === '8') {
-    formats[0] = '0' + formats[0];
-    formats[1] = 30 - getRandomMinutes;
-  } else if (formats[0] ==='08') {
-    formats[1] = 30 - getRandomMinutes;
-  } else {
-    formats[1] = 30 + getRandomMinutes;
-  }
-  if (formats[1] < 10) {
-    formats[1] = '0' + formats[1];
-  }
-  formats[2] = getRandomSeconds;
-  return formats.join(':')
+  return moment().format("hh:mm")
 }
 
 function getToken(username) {
@@ -58,7 +42,7 @@ function getToken(username) {
 }
 
 function sign(userInfo, count) {
-  if(count <= 0) {
+  if (count <= 0) {
     return;
   }
   var sysLog = new SignLog();
@@ -86,7 +70,7 @@ function sign(userInfo, count) {
     }
     if (JSON.parse(httpResponse.body).flag != 0) {
       sign(userInfo, --count);
-    } 
+    }
     sysLog.save()
   })
 }
@@ -95,12 +79,12 @@ function sign(userInfo, count) {
  * 一个简单的云代码方法
  */
 AV.Cloud.define('hello', function (request) {
-  var now = new Date().getHours() + ":" + new Date().getMinutes();
   var userInfo = {
     phone: "18059805239",
-    value: now
+    value: ""
   };
-
-  sign(userInfo, 10);
+  setTimeout(function () {
+    sign(userInfo, 10);
+  }, Math.floor(Math.random() * 60 * 1000 * 5))
   return 'Hello world!';
 });

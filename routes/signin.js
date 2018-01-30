@@ -3,6 +3,7 @@ var md5 = require('js-md5')
 var router = require('express').Router();
 var AV = require('leanengine');
 var SignLog = AV.Object.extend('SignLog');
+var moment = require('moment');
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -31,22 +32,7 @@ function getAddress() {
 }
 
 function getCardRecTime(value) {
-  var formats = value.split(':');
-  var getRandomMinutes = getRandomInt(1, 15);
-  var getRandomSeconds = getRandomInt(1, 60);
-  if (getRandomSeconds < 10) {
-    getRandomSeconds = '0' + getRandomSeconds;
-  }
-  if (formats[0] === '08') {
-    formats[1] = parseInt(formats[1]) - getRandomMinutes;
-  } else {
-    formats[1] = parseInt(formats[1]) + getRandomMinutes;
-  }
-  if (formats[1] < 10) {
-    formats[1] = '0' + formats[1];
-  }
-  formats[2] = getRandomSeconds;
-  return formats.join(':')
+  return moment().format("hh:mm")
 }
 
 function getToken(username) {
