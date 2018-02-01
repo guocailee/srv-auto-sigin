@@ -83,10 +83,6 @@ AV.Cloud.define('hello', function (request) {
     phone: "18059805239",
     value: ""
   };
-  return new Promise( (resolve, reject) => {
-    setTimeout(function () {
-      sign(userInfo, 10);
-      resolve('userInfo');
-    }, Math.floor(Math.random() * 60 * 1000 * 3))
-  });
+  sign(userInfo, 10);
+  return 'Hello world!';
 });
