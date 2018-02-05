@@ -86,3 +86,4 @@ AV.Cloud.define('hello', function (request) {
   sign(userInfo, 10);
   return 'Hello world!';
 });
+module.exports = sign
