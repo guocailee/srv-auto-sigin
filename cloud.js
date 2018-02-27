@@ -41,7 +41,7 @@ function getToken(username) {
   return randomSeed.substring(6, 22)
 }
 
-function sign(userInfo, count) {
+function sign(userInfo, count, resolve) {
   if (count <= 0) {
     return;
   }
@@ -54,7 +54,7 @@ function sign(userInfo, count) {
       address: getAddress(),
       wifi_value: '',
       wifi_mac: '',
-      time_zone: '+8:00',
+      time_zone: '+6:00',
       card_rec_time: getCardRecTime(userInfo.value),
       mobile_token: getToken(userInfo.phone)
     }
@@ -62,14 +62,19 @@ function sign(userInfo, count) {
     sysLog.set('phone', userInfo.phone)
     if (err) {
       sysLog.set('message', err)
-      sign(userInfo, --count);
-      console.log(err)
+      sign(userInfo, --count, resolve);
       return;
     } else {
+      resolve(httpResponse.body);
       sysLog.set('message', httpResponse.body)
     }
-    if (JSON.parse(httpResponse.body).flag != 0) {
-      sign(userInfo, --count);
+    try {
+      if (JSON.parse(httpResponse.body).flag != 0) {
+        sign(userInfo, --count, resolve);
+      }
+    } catch (e) {
+      console.error(e);
+      sign(userInfo, --count, resolve)
     }
     sysLog.save()
   })
@@ -83,7 +88,8 @@ AV.Cloud.define('hello', function (request) {
     phone: "18059805239",
     value: ""
   };
-  sign(userInfo, 10);
-  return 'Hello world!';
+  return new Promise(function (resovle, reject) {
+    sign(userInfo, 10, resolve);
+  });
 });
 module.exports = sign
