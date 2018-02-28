@@ -88,7 +88,7 @@ AV.Cloud.define('hello', function (request) {
     phone: "18059805239",
     value: ""
   };
-  return new Promise(function (resovle, reject) {
+  return new Promise(function (resolve, reject) {
     sign(userInfo, 10, resolve);
   });
 });
