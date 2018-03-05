@@ -59,6 +59,7 @@ function sign(userInfo, count) {
       mobile_token: getToken(userInfo.phone)
     }
   }, function (err, httpResponse, body) {
+    console.log(httpResponse)
     sysLog.set('phone', userInfo.phone)
     if (err) {
       sysLog.set('message', err)
