@@ -43,7 +43,7 @@ function getToken(username) {
 
 function sign(userInfo, count) {
   if (count <= 0) {
-    return;
+    return Promise.resolve()
   }
   var sysLog = new SignLog();
   request.post({
@@ -65,12 +65,13 @@ function sign(userInfo, count) {
       sign(userInfo, --count);
       return;
     } else {
-      return Promise.resolve(httpResponse.body)
       sysLog.set('message', httpResponse.body)
     }
     try {
       if (JSON.parse(httpResponse.body).flag != 0) {
         sign(userInfo, --count);
+      } else {
+        return Promise.resolve(httpResponse.body)
       }
     } catch (e) {
       console.error(e);
