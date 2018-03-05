@@ -41,7 +41,7 @@ function getToken(username) {
   return randomSeed.substring(6, 22)
 }
 
-function sign(userInfo, count, resolve) {
+function sign(userInfo, count) {
   if (count <= 0) {
     return;
   }
@@ -62,19 +62,19 @@ function sign(userInfo, count, resolve) {
     sysLog.set('phone', userInfo.phone)
     if (err) {
       sysLog.set('message', err)
-      sign(userInfo, --count, resolve);
+      sign(userInfo, --count);
       return;
     } else {
-      resolve(httpResponse.body);
+      return Promise.resolve(httpResponse.body)
       sysLog.set('message', httpResponse.body)
     }
     try {
       if (JSON.parse(httpResponse.body).flag != 0) {
-        sign(userInfo, --count, resolve);
+        sign(userInfo, --count);
       }
     } catch (e) {
       console.error(e);
-      sign(userInfo, --count, resolve)
+      sign(userInfo, --count)
     }
     sysLog.save()
   })
@@ -89,7 +89,7 @@ AV.Cloud.define('hello', function (request) {
     value: ""
   };
   return new Promise(function (resolve, reject) {
-    sign(userInfo, 10, resolve);
+    return sign(userInfo, 10);
   });
 });
 module.exports = sign
