@@ -13,7 +13,7 @@ function getRandomInt(min, max) {
 }
 
 function getUrl(username) {
-  var url = 'http://s1.zkcserv.com/cb_hrms/index.cfm?event=ionicAction.ionicAction.signInAction&_user_name=' + username + '&_pass_word=A5DD89CC477FE32B264C41CA561D2BE8&_is_login=1&_notification_token=13065ffa4e07eebb75b&_device_type=android'
+  var url = 'https://zkteco.zkcserv.com/cb_hrms/index.cfm?event=ionicAction.ionicAction.signInAction&_user_name=' + username + '&_pass_word=A5DD89CC477FE32B264C41CA561D2BE8&_is_login=1&_notification_token=13065ffa4e07eebb75b&_device_type=android'
   return url
 }
 
@@ -54,11 +54,12 @@ function sign(userInfo, count) {
       address: getAddress(),
       wifi_value: '',
       wifi_mac: '',
-      time_zone: '+8:00',
+      time_zone: '+6:00',
       card_rec_time: getCardRecTime(userInfo.value),
       mobile_token: getToken(userInfo.phone)
     }
   }, function (err, httpResponse, body) {
+    console.log(httpResponse.body);
     sysLog.set('phone', userInfo.phone)
     if (err) {
       sysLog.set('message', err)
@@ -69,6 +70,7 @@ function sign(userInfo, count) {
     }
     try {
       if (JSON.parse(httpResponse.body).flag != 0) {
+        
         sign(userInfo, --count);
       } else {
         return Promise.resolve(httpResponse.body)
