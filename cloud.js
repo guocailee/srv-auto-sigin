@@ -54,7 +54,7 @@ function sign(userInfo, count) {
       address: getAddress(),
       wifi_value: '',
       wifi_mac: '',
-      time_zone: '+6:00',
+      time_zone: '+8:00',
       card_rec_time: getCardRecTime(userInfo.value),
       mobile_token: getToken(userInfo.phone)
     }
